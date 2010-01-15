@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 
 public class GPRSWall extends Activity {
+	private ImageView imageView;
     private TextView outputView;
 	private Button switchButton;
 	private Handler handler = new Handler();
@@ -53,17 +54,26 @@ public class GPRSWall extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        imageView = (ImageView)findViewById(R.id.ImageView);
         outputView = (TextView)findViewById(R.id.OutputView);
         switchButton = (Button)findViewById(R.id.SwitchButton);
         switchButton.setOnClickListener(onSwitchButtonClick);
 
         String res = doExec(commands_check);
+		if (res.contains("disabled"))
+			imageView.setImageResource(R.drawable.disable);
+		else if (res.contains("enabled"))
+			imageView.setImageResource(R.drawable.enable);
 		output(res);
     }
 
 	private OnClickListener onSwitchButtonClick = new OnClickListener() {
 		public void onClick(View v) {
 			String res = doExec(commands_switch);
+			if (res.contains("disabled"))
+				imageView.setImageResource(R.drawable.disable);
+			else if (res.contains("enabled"))
+				imageView.setImageResource(R.drawable.enable);
 			output(res);
 		}
 	};
